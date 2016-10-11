@@ -8,6 +8,7 @@ from six import StringIO
 from django.core import files
 from django.test import TestCase
 from django.core.files.storage import default_storage
+from django.core.management import call_command
 
 from database_files.models import File
 from database_files.tests.models import Thing
@@ -129,10 +130,8 @@ class DatabaseFilesTestCase(TestCase):
 #        h = utils.get_text_hash(open(fqfn, 'r').read())
 #        self.assertEqual(h, expected_hash)
 
-class DatabaseFilesViewTestCase(TestCase):
-    fixtures = ['test_data.json']
-    
     def test_reading_file(self):
+        call_command('loaddata', 'test_files.json')
         self.assertEqual(File.objects.count(), 1)
         response = self.client.get('/files/1.txt')
         if hasattr(response, 'streaming_content'):
