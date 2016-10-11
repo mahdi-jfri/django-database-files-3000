@@ -1,6 +1,8 @@
 Django Database Files 3000
 ==========================
 
+![Build Status](https://secure.travis-ci.org/chrisspen/django-database-files-3000.png?branch=master)
+
 This is a storage system for Django that stores uploaded
 files in the database. Files can be served from the database
 (usually a bad idea), the file system, or a CDN.
