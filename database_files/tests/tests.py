@@ -9,6 +9,7 @@ from django.core import files
 from django.test import TestCase
 from django.core.files.storage import default_storage
 from django.core.management import call_command
+from django.conf import settings
 
 from database_files.models import File
 from database_files.tests.models import Thing
@@ -61,9 +62,12 @@ class DatabaseFilesTestCase(TestCase):
         # Load a dynamically created file outside /media.
         test_file = files.temp.NamedTemporaryFile(
             suffix='.txt',
-            dir=files.temp.gettempdir()
+            # Django>=1.10 no longer allows accessing files outside of MEDIA_ROOT...
+            #dir=files.temp.gettempdir()
+            dir=os.path.join(settings.PROJECT_DIR, 'media'),
         )
-        test_file.write(b'1234567890')
+        data0 = b'1234567890'
+        test_file.write(data0)
         test_file.seek(0)
         t = Thing.objects.create(
             upload=files.File(test_file),
@@ -72,7 +76,7 @@ class DatabaseFilesTestCase(TestCase):
         t = Thing.objects.get(pk=t.pk)
         self.assertEqual(t.upload.file.size, 10)
         self.assertEqual(t.upload.file.name[-4:], '.txt')
-        self.assertEqual(t.upload.file.read(), b'1234567890')
+        self.assertEqual(t.upload.file.read(), data0)
         t.upload.delete()
         self.assertEqual(File.objects.count(), 1)
         
