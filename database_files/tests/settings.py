@@ -20,7 +20,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'database_files',
     'database_files.tests',
-    'south',
 ]
 
 DEFAULT_FILE_STORAGE = 'database_files.storage.DatabaseStorage'
@@ -43,3 +42,21 @@ SOUTH_TESTS_MIGRATE = False # <= Django 1.8
 USE_TZ = True
 
 SECRET_KEY = 'secret'
+
+AUTH_USER_MODEL = 'auth.User'
+
+SITE_ID = 1
+
+BASE_SECURE_URL = 'https://localhost'
+
+BASE_URL = 'http://localhost'
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.transaction.TransactionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.locale.LocaleMiddleware',    
+)
