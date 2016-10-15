@@ -20,9 +20,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(db_index=True, max_length=255, unique=True)),
                 ('size', models.PositiveIntegerField(db_index=True)),
-                ('_content', models.TextField(db_column=b'content')),
-                ('created_datetime', models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name=b'Created datetime')),
-                ('_content_hash', models.CharField(blank=True, db_column=b'content_hash', db_index=True, max_length=128, null=True)),
+                ('_content', models.TextField(db_column='content')),
+                ('created_datetime', models.DateTimeField(db_index=True, default=django.utils.timezone.now, verbose_name='Created datetime')),
+                ('_content_hash', models.CharField(blank=True, db_column='content_hash', db_index=True, max_length=128, null=True)),
             ],
             options={
                 'db_table': 'database_files_file',
