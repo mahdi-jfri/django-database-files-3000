@@ -1,7 +1,7 @@
 Django Database Files 3000
 ==========================
 
-![Build Status](https://secure.travis-ci.org/chrisspen/django-database-files-3000.png?branch=master)
+[<img src="https://secure.travis-ci.org/chrisspen/django-database-files-3000.png?branch=master" alt="Build Status">](https://travis-ci.org/chrisspen/django-database-files-3000)
 
 This is a storage system for Django that stores uploaded
 files in the database. Files can be served from the database
