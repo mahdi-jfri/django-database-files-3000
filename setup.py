@@ -30,14 +30,7 @@ setup(
     author='Chris Spencer',
     author_email='chrisspen@gmail.com',
     url='http://github.com/chrisspen/django-database-files-3000',
-    #packages=find_packages(),
-    packages=[
-        'database_files',
-        'database_files.management',
-        'database_files.management.commands',
-        'database_files.migrations',
-        'database_files.south_migrations',
-    ],
+    packages=find_packages(),
     #https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         'Development Status :: 6 - Mature',
