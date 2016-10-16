@@ -117,8 +117,8 @@ class File(models.Model):
                             'system...') % (file_id, name))
                     f = File.objects.get(id=file_id)
                     write_file(
-                        file.name,
-                        file.content,
+                        f.name,
+                        f.content,
                         overwrite=True)
                     f._content_hash = None
                     f.save()
