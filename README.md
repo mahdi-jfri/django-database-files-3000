@@ -1,7 +1,7 @@
 Django Database Files 3000
 ==========================
 
-[<img src="https://secure.travis-ci.org/chrisspen/django-database-files-3000.png?branch=master" alt="Build Status">](https://travis-ci.org/chrisspen/django-database-files-3000)
+[![](https://img.shields.io/pypi/v/django-database-files-3000.svg)](https://pypi.python.org/pypi/django-database-files-3000) [![Build Status](https://img.shields.io/travis/chrisspen/django-database-files-3000.svg?branch=master)](https://travis-ci.org/chrisspen/django-database-files-3000) [![](https://pyup.io/repos/github/chrisspen/django-database-files-3000/shield.svg)](https://pyup.io/repos/github/chrisspen/django-database-files-3000)
 
 This is a storage system for Django that stores uploaded
 files in the database. Files can be served from the database
