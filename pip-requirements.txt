@@ -1,2 +1,2 @@
 six>=1.7.2
-South
+South==1.0.2
