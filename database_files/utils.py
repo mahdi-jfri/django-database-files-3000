@@ -5,6 +5,7 @@ import hashlib
 import six
 
 from django.conf import settings
+from database_files import settings as _settings
 
 def is_fresh(name, content_hash):
     """
@@ -43,8 +44,7 @@ def get_hash_fn(name):
     if not os.path.isdir(dirs):
         os.makedirs(dirs)
     fqfn_parts = os.path.split(fqfn)
-    hash_fn = os.path.join(fqfn_parts[0],
-        settings.DB_FILES_DEFAULT_HASH_FN_TEMPLATE % fqfn_parts[1])
+    hash_fn = os.path.join(fqfn_parts[0], _settings.DB_FILES_DEFAULT_HASH_FN_TEMPLATE % fqfn_parts[1])
     return hash_fn
 
 def write_file(name, content, overwrite=False):
@@ -88,11 +88,11 @@ def get_file_hash(fin, force_encoding=None, encoding=None, errors=None, chunk_si
     Iteratively builds a file hash without loading the entire file into memory.
     """
     
-    force_encoding = force_encoding or settings.DB_FILES_DEFAULT_ENFORCE_ENCODING
+    force_encoding = force_encoding or _settings.DB_FILES_DEFAULT_ENFORCE_ENCODING
     
-    encoding = encoding or settings.DB_FILES_DEFAULT_ENCODING
+    encoding = encoding or _settings.DB_FILES_DEFAULT_ENCODING
     
-    errors = errors or settings.DB_FILES_DEFAULT_ERROR_METHOD
+    errors = errors or _settings.DB_FILES_DEFAULT_ERROR_METHOD
     
     if isinstance(fin, six.string_types):
         fin = open(fin, 'rb')
@@ -124,11 +124,11 @@ def get_text_hash(text, force_encoding=None, encoding=None, errors=None):
     Returns the hash of the given text.
     """
     
-    force_encoding = force_encoding or settings.DB_FILES_DEFAULT_ENFORCE_ENCODING
+    force_encoding = force_encoding or _settings.DB_FILES_DEFAULT_ENFORCE_ENCODING
     
-    encoding = encoding or settings.DB_FILES_DEFAULT_ENCODING
+    encoding = encoding or _settings.DB_FILES_DEFAULT_ENCODING
     
-    errors = errors or settings.DB_FILES_DEFAULT_ERROR_METHOD
+    errors = errors or _settings.DB_FILES_DEFAULT_ERROR_METHOD
         
     h = hashlib.sha512()
     if force_encoding:
