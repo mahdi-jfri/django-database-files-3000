@@ -53,7 +53,7 @@ class DatabaseStorage(FileSystemStorage):
                 size = fh.size
             else:
                 # Otherwise we don't know where the file is.
-                return
+                return None
         # Normalize the content to a new file object.
         #fh = StringIO(content)
         fh = six.BytesIO(content)
