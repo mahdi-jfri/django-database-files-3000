@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 sudo: required
 language: python
 python:
@@ -7,7 +7,7 @@ install:
 -   sudo add-apt-repository -y ppa:fkrull/deadsnakes
 -   sudo apt-get -yq update
 -   sudo apt-get -yq install python3.6 python3.6-dev
--   pip install tox pylint
+-   pip install tox "pylint<2.0"
 script:
 -   ./pep8.sh
 -   tox
