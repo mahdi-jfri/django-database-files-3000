@@ -1,7 +1,11 @@
 import os
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 
 # If true, when file objects are created, they will be automatically copied
 # to the local file system for faster serving.
