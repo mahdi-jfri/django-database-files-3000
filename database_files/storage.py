@@ -7,7 +7,10 @@ from six import StringIO
 from django.conf import settings
 from django.core import files
 from django.core.files.storage import FileSystemStorage
-from django.core.urlresolvers import reverse
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 
 from database_files import models
 from database_files import utils
