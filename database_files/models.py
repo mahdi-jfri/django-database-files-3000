@@ -68,7 +68,11 @@ class File(models.Model):
     
     @content.setter
     def content(self, v):
-        self._content = base64.b64encode(v)
+        c = base64.b64encode(v)
+        if not isinstance(c, six.string_types):
+            c = c.decode('utf-8')
+        self._content = c
+
         
     @property
     def content_hash(self):
