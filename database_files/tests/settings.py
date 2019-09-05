@@ -27,7 +27,7 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 # Disable migrations.
 # http://stackoverflow.com/a/28560805/247542
-class DisableMigrations(object):
+class DisableMigrations:
 
     def __contains__(self, item):
         return True
@@ -35,10 +35,6 @@ class DisableMigrations(object):
     def __getitem__(self, item):
         return "notmigrations"
 
-
-SOUTH_TESTS_MIGRATE = False # <= Django 1.8
-# if django.VERSION > (1, 7, 0): # > Django 1.8
-#     MIGRATION_MODULES = DisableMigrations()
 
 USE_TZ = True
 

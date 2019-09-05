@@ -32,7 +32,7 @@ class Command(BaseCommand):
         settings.DEBUG = False
         names = set()
         dryrun = options['dryrun']
-        filenames = set([_.strip() for _ in options['filenames'].split(',') if _.strip()])
+        filenames = set(_.strip() for _ in options['filenames'].split(',') if _.strip())
         try:
             for model in get_models():
                 print('Checking model %s...' % (model,))
