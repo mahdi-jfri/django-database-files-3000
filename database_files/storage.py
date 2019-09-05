@@ -16,8 +16,9 @@ from database_files import models
 from database_files import utils
 from database_files import settings as _settings
 
+
 class DatabaseStorage(FileSystemStorage):
-    
+
     def _generate_name(self, name, pk):
         """
         Replaces the filename with the specified pk and removes any dir
@@ -26,7 +27,7 @@ class DatabaseStorage(FileSystemStorage):
         #file_root, file_ext = os.path.splitext(file_name)
         #return '%s%s' % (pk, file_name)
         return name
-    
+
     def _open(self, name, mode='rb'):
         """
         Open file with filename `name` from the database.
@@ -65,7 +66,7 @@ class DatabaseStorage(FileSystemStorage):
         fh.size = size
         o = files.File(fh)
         return o
-    
+
     def _save(self, name, content):
         """
         Save file with filename `name` and given content to the database.
@@ -87,7 +88,7 @@ class DatabaseStorage(FileSystemStorage):
             utils.write_file(name, content, overwrite=True)
         #TODO:add callback to handle custom save behavior?
         return self._generate_name(name, f.pk)
-    
+
     def exists(self, name):
         """
         Returns true if a file with the given filename exists in the database.
@@ -96,7 +97,7 @@ class DatabaseStorage(FileSystemStorage):
         if models.File.objects.filter(name=name).exists():
             return True
         return super(DatabaseStorage, self).exists(name)
-    
+
     def delete(self, name):
         """
         Deletes the file with filename `name` from the database and filesystem.
@@ -109,13 +110,13 @@ class DatabaseStorage(FileSystemStorage):
         except models.File.DoesNotExist:
             pass
         return super(DatabaseStorage, self).delete(name)
-    
+
     def url(self, name):
         """
         Returns the web-accessible URL for the file with filename `name`.
         """
         return _settings.DATABASE_FILES_URL_METHOD(name)
-    
+
     def size(self, name):
         """
         Returns the size of the file with filename `name` in bytes.

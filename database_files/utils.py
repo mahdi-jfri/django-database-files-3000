@@ -1,4 +1,3 @@
-
 import os
 import hashlib
 
@@ -7,6 +6,7 @@ import six
 from django.conf import settings
 from database_files import settings as _settings
 
+
 def is_fresh(name, content_hash):
     """
     Returns true if the file exists on the local filesystem and matches the
@@ -14,18 +14,18 @@ def is_fresh(name, content_hash):
     """
     if not content_hash:
         return False
-    
+
     # Check that the actual file exists.
     fqfn = os.path.join(settings.MEDIA_ROOT, name)
     fqfn = os.path.normpath(fqfn)
     if not os.path.isfile(fqfn):
         return False
-    
+
     # Check for cached hash file.
     hash_fn = get_hash_fn(name)
     if os.path.isfile(hash_fn):
         return open(hash_fn).read().strip() == content_hash
-    
+
     # Otherwise, calculate the hash of the local file.
     fqfn = os.path.join(settings.MEDIA_ROOT, name)
     fqfn = os.path.normpath(fqfn)
@@ -33,6 +33,7 @@ def is_fresh(name, content_hash):
         return False
     local_content_hash = get_file_hash(fqfn)
     return local_content_hash == content_hash
+
 
 def get_hash_fn(name):
     """
@@ -47,6 +48,7 @@ def get_hash_fn(name):
     hash_fn = os.path.join(fqfn_parts[0], _settings.DB_FILES_DEFAULT_HASH_FN_TEMPLATE % fqfn_parts[1])
     return hash_fn
 
+
 def write_file(name, content, overwrite=False):
     """
     Writes the given content to the relative filename under the MEDIA_ROOT.
@@ -59,7 +61,7 @@ def write_file(name, content, overwrite=False):
     if not os.path.isdir(dirs):
         os.makedirs(dirs)
     open(fqfn, 'wb').write(content)
-    
+
     # Cache hash.
     hash_value = get_file_hash(fqfn)
     hash_fn = get_hash_fn(name)
@@ -69,12 +71,12 @@ def write_file(name, content, overwrite=False):
     except TypeError:
         value = hash_value
     open(hash_fn, 'wb').write(value)
-    
+
     # Set ownership and permissions.
     uname = getattr(settings, 'DATABASE_FILES_USER', None)
     gname = getattr(settings, 'DATABASE_FILES_GROUP', None)
     if gname:
-        gname = ':'+gname
+        gname = ':' + gname
     if uname:
         os.system('chown -RL %s%s "%s"' % (uname, gname, dirs))
 
@@ -83,17 +85,18 @@ def write_file(name, content, overwrite=False):
     if perms:
         os.system('chmod -R %s "%s"' % (perms, dirs))
 
+
 def get_file_hash(fin, force_encoding=None, encoding=None, errors=None, chunk_size=128):
     """
     Iteratively builds a file hash without loading the entire file into memory.
     """
-    
+
     force_encoding = force_encoding or _settings.DB_FILES_DEFAULT_ENFORCE_ENCODING
-    
+
     encoding = encoding or _settings.DB_FILES_DEFAULT_ENCODING
-    
+
     errors = errors or _settings.DB_FILES_DEFAULT_ERROR_METHOD
-    
+
     if isinstance(fin, six.string_types):
         fin = open(fin, 'rb')
     h = hashlib.sha512()
@@ -109,6 +112,7 @@ def get_file_hash(fin, force_encoding=None, encoding=None, errors=None, chunk_si
             h.update(text)
     return h.hexdigest()
 
+
 def get_text_hash_0004(text):
     """
     Returns the hash of the given text.
@@ -119,17 +123,18 @@ def get_text_hash_0004(text):
     h.update(text.encode('utf-8', 'replace'))
     return h.hexdigest()
 
+
 def get_text_hash(text, force_encoding=None, encoding=None, errors=None):
     """
     Returns the hash of the given text.
     """
-    
+
     force_encoding = force_encoding or _settings.DB_FILES_DEFAULT_ENFORCE_ENCODING
-    
+
     encoding = encoding or _settings.DB_FILES_DEFAULT_ENCODING
-    
+
     errors = errors or _settings.DB_FILES_DEFAULT_ERROR_METHOD
-        
+
     h = hashlib.sha512()
     if force_encoding:
         if not isinstance(text, six.text_type):

@@ -10,6 +10,7 @@ from django.views.static import serve as django_serve
 
 from database_files.models import File
 
+
 @cache_control(max_age=86400)
 def serve(request, name):
     """
@@ -21,6 +22,7 @@ def serve(request, name):
     response = HttpResponse(f.content, content_type=mimetype)
     response['Content-Length'] = f.size
     return response
+
 
 def serve_mixed(request, *args, **kwargs):
     """
@@ -36,4 +38,3 @@ def serve_mixed(request, *args, **kwargs):
     except Http404:
         # Then try serving from database.
         return serve(request, name)
-    

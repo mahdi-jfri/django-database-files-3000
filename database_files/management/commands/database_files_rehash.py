@@ -7,18 +7,19 @@ from django.core.management.base import BaseCommand, CommandError
 
 from database_files.models import File
 
+
 class Command(BaseCommand):
     args = '<filename 1> <filename 2> ... <filename N>'
     help = 'Regenerates hashes for files. If no filenames given, ' + \
         'rehashes everything.'
     option_list = BaseCommand.option_list + (
-#        make_option('--dryrun',
-#            action='store_true',
-#            dest='dryrun',
-#            default=False,
-#            help='If given, only displays the names of orphaned files ' + \
-#                'and does not delete them.'),
-        )
+        #        make_option('--dryrun',
+        #            action='store_true',
+        #            dest='dryrun',
+        #            default=False,
+        #            help='If given, only displays the names of orphaned files ' + \
+        #                'and does not delete them.'),
+    )
 
     def handle(self, *args, **options):
         tmp_debug = settings.DEBUG

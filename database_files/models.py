@@ -14,58 +14,44 @@ from database_files.manager import FileManager
 
 from . import settings as _settings
 
+
 class File(models.Model):
-    
+
     objects = FileManager()
-    
-    name = models.CharField(
-        max_length=255,
-        unique=True,
-        blank=False,
-        null=False,
-        db_index=True)
-    
-    size = models.PositiveIntegerField(
-        db_index=True,
-        blank=False,
-        null=False)
+
+    name = models.CharField(max_length=255, unique=True, blank=False, null=False, db_index=True)
+
+    size = models.PositiveIntegerField(db_index=True, blank=False, null=False)
 
     _content = models.TextField(db_column='content')
-    
-    created_datetime = models.DateTimeField(
-        db_index=True,
-        default=timezone.now,
-        verbose_name="Created datetime")
-    
-    _content_hash = models.CharField(
-        db_column='content_hash',
-        db_index=True,
-        max_length=128,
-        blank=True, null=True)
-    
+
+    created_datetime = models.DateTimeField(db_index=True, default=timezone.now, verbose_name="Created datetime")
+
+    _content_hash = models.CharField(db_column='content_hash', db_index=True, max_length=128, blank=True, null=True)
+
     class Meta:
         db_table = 'database_files_file'
-    
+
     def save(self, *args, **kwargs):
-        
+
         # Check for and clear old content hash.
         if self.id:
             old = File.objects.get(id=self.id)
             if old._content != self._content:
                 self._content_hash = None
-                
+
         # Recalculate new content hash.
         self.content_hash
-        
+
         return super(File, self).save(*args, **kwargs)
-    
+
     @property
     def content(self):
         c = self._content
         if not isinstance(c, six.binary_type):
             c = c.encode('utf-8')
         return base64.b64decode(c)
-    
+
     @content.setter
     def content(self, v):
         c = base64.b64encode(v)
@@ -73,13 +59,12 @@ class File(models.Model):
             c = c.decode('utf-8')
         self._content = c
 
-        
     @property
     def content_hash(self):
         if not self._content_hash and self._content:
             self._content_hash = utils.get_text_hash(self.content)
         return self._content_hash
-    
+
     def dump(self, check_hash=False):
         """
         Writes the file content to the filesystem.
@@ -88,14 +73,11 @@ class File(models.Model):
         """
         if is_fresh(self.name, self._content_hash):
             return
-        write_file(
-            self.name,
-            self.content,
-            overwrite=True)
+        write_file(self.name, self.content, overwrite=True)
         if check_hash:
             self._content_hash = None
         self.save()
-    
+
     @classmethod
     def dump_files(cls, debug=True, verbose=False):
         """
@@ -117,13 +99,9 @@ class File(models.Model):
                     print('%i of %i' % (i, total))
                 if not is_fresh(name=name, content_hash=content_hash):
                     if verbose:
-                        print(('File %i-%s is stale. Writing to local file '
-                            'system...') % (file_id, name))
+                        print(('File %i-%s is stale. Writing to local file ' 'system...') % (file_id, name))
                     f = File.objects.get(id=file_id)
-                    write_file(
-                        f.name,
-                        f.content,
-                        overwrite=True)
+                    write_file(f.name, f.content, overwrite=True)
                     f._content_hash = None
                     f.save()
         finally:
