@@ -16,14 +16,14 @@ def URL_METHOD_1(name):
     """
     Construct file URL based on media URL.
     """
-    return os.path.join(settings.MEDIA_URL, name)
+    return os.path.join(settings.MEDIA_URL, str(name))
 
 
 def URL_METHOD_2(name):
     """
     Construct file URL based on configured URL pattern.
     """
-    return reverse('database_file', kwargs={'name': name})
+    return reverse('database_file', kwargs={'name': str(name)})
 
 
 URL_METHODS = (
